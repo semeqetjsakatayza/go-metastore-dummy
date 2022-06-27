@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func (val *metaValue) setupRSAPrivateKey(keyBits int, maxAcceptableAge time.Duration, currentModifyAt int64) (ok bool, priKey *rsa.PrivateKey, modifyAt int64, err error) {
+func (val *metaValue) prepareRSAPrivateKey(keyBits int, maxAcceptableAge time.Duration, currentModifyAt int64) (ok bool, priKey *rsa.PrivateKey, modifyAt int64, err error) {
 	modifyBoundAt := time.Now().Unix() - int64(maxAcceptableAge/time.Second)
 	if modifyBoundAt < val.modifyAt {
 		modifyAt = val.modifyAt

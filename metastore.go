@@ -84,10 +84,10 @@ func (m *MetaStore) StoreRevision(metaKey string, revValue int32) (err error) {
 	return m.StoreInt32(metaKey, revValue)
 }
 
-// FetchRSAPrivateKey read RSA private key from storage.
+// PrepareRSAPrivateKey read RSA private key from storage.
 //
 // A new private key will be generate if existed key expires.
-func (m *MetaStore) FetchRSAPrivateKey(metaKey string, keyBits int, maxAcceptableAge time.Duration, currentModifyAt int64) (ok bool, priKey *rsa.PrivateKey, modifyAt int64, err error) {
+func (m *MetaStore) PrepareRSAPrivateKey(metaKey string, keyBits int, maxAcceptableAge time.Duration, currentModifyAt int64) (ok bool, priKey *rsa.PrivateKey, modifyAt int64, err error) {
 	v := m.prepareValue(metaKey)
-	return v.setupRSAPrivateKey(keyBits, maxAcceptableAge, currentModifyAt)
+	return v.prepareRSAPrivateKey(keyBits, maxAcceptableAge, currentModifyAt)
 }
