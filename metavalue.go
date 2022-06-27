@@ -1,6 +1,7 @@
 package metastore
 
 import (
+	"crypto/rsa"
 	"strconv"
 	"time"
 )
@@ -9,6 +10,8 @@ type metaValue struct {
 	b    bool
 	i64  int64
 	text string
+
+	rsaPrivateKey *rsa.PrivateKey
 
 	modifyAt int64
 }
