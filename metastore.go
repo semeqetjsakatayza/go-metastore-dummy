@@ -1,5 +1,10 @@
 package metastore
 
+import (
+	"crypto/rsa"
+	"time"
+)
+
 // MetaStore keeps meta informations and handles access operations.
 type MetaStore struct {
 	d map[string]*metaValue
@@ -77,4 +82,12 @@ func (m *MetaStore) FetchRevision(metaKey string) (revValue int32, modifyAt int6
 // StoreRevision save revision record into store.
 func (m *MetaStore) StoreRevision(metaKey string, revValue int32) (err error) {
 	return m.StoreInt32(metaKey, revValue)
+}
+
+// FetchRSAPrivateKey read RSA private key from storage.
+//
+// A new private key will be generate if existed key expires.
+func (m *MetaStore) FetchRSAPrivateKey(metaKey string, keyBits int, maxAcceptableAge time.Duration, currentModifyAt int64) (ok bool, priKey *rsa.PrivateKey, modifyAt int64, err error) {
+	v := m.prepareValue(metaKey)
+	return v.setupRSAPrivateKey(keyBits, maxAcceptableAge, currentModifyAt)
 }
